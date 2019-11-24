@@ -1,0 +1,54 @@
+TeximpNet Changes:
+
+(I don't plan on PRing these changes back to the original project)
+
+1. CmakeLists.txt (line 39)
+
+What:
+
+Set the other libraries to static so we can have a single nvtt DLL
+
+Code:
+
+IF(NVTT_SHARED)
+	SET(NVCORE_SHARED FALSE)
+	SET(NVMATH_SHARED FALSE)
+	SET(NVIMAGE_SHARED FALSE)
+ENDIF(NVTT_SHARED)
+
+
+2. configure script
+
+What:
+
+Made library default to shared, -DNVTT_SHARED=1 (originally set to 0)
+
+
+3. src/CmakeLists.txt (line 124)
+
+What:
+
+Disable OpenMP support
+
+Code:
+
+#INCLUDE(FindOpenMP)
+#IF(OPENMP_FOUND)
+#	SET(HAVE_OPENMP ${OPENMP_FOUND} CACHE BOOL "Set to TRUE if OpenMP is found, FALSE otherwise")
+#	MESSAGE(STATUS "Looking for OpenMP - found")
+#	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+#	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+#ELSE(OPENMP_FOUND)
+#	MESSAGE(STATUS "Looking for OpenMP - not found")
+#ENDIF(OPENMP_FOUND)
+
+
+4. project/vc2017-teximp
+
+What:
+
+Changed all VC projects to output Multi-Threaded (/MT) rather than /MD which means the VC runtime library will be statically linked. So
+we won't have to have a runtime dependency. We copied the original vc2017 folder so it's isolated from the original project files.
+
+
+5. Added azure-pipelines.yml file for CI builds
