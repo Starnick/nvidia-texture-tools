@@ -64,8 +64,8 @@ namespace nvtt
         nv::AutoPtr<nv::CudaContext> cuda;
 
         TaskDispatcher * dispatcher;
-        //SequentialTaskDispatcher defaultDispatcher;
-        ConcurrentTaskDispatcher defaultDispatcher;
+        SequentialTaskDispatcher defaultDispatcher;
+        //ConcurrentTaskDispatcher defaultDispatcher;
     };
 
 } // nvtt namespace
