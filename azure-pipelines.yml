@@ -12,8 +12,11 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - script: ./configure --release
+    displayName: Configure Make Project
   - script: make
+    displayName: Build Make Project
   - task: PublishBuildArtifacts@1
+    displayName: Publish linux-x64 Artifacts
     inputs:
       PathtoPublish: 'build-release/src/nvtt/libnvtt.so'
       ArtifactName: 'linux-x64'
@@ -23,8 +26,11 @@ jobs:
     vmImage: 'macOS-latest'
   steps:
   - script: ./configure --release
+    displayName: Configure Make Project
   - script: make
+    displayName: Build Make Project
   - task: PublishBuildArtifacts@1
+    displayName: Publish osx-x64 Artifacts
     inputs:
       PathtoPublish: 'build-release/src/nvtt/libnvtt.dylib'
       ArtifactName: 'osx-x64'
@@ -34,6 +40,7 @@ jobs:
     vmImage: 'vs2017-win2016'
   steps:
   - task: VSBuild@1
+    displayName: Build VS Project
     inputs:
       solution: 'project/vs2017-teximpnet/nvtt.sln'
       vsVersion: '15.0'
@@ -42,11 +49,13 @@ jobs:
       maximumCpuCount: true
       msbuildArchitecture: 'x64'
   - task: PublishBuildArtifacts@1
+    displayName: Publish win-x64 Artifacts
     inputs:
       PathtoPublish: 'project/vs2017-teximpnet/Release.x64/'
       ArtifactName: 'win-x64'
       publishLocation: 'Container'
   - task: VSBuild@1
+    displayName: Build VS Project
     inputs:
       solution: 'project/vs2017-teximpnet/nvtt.sln'
       vsVersion: '15.0'
@@ -56,6 +65,7 @@ jobs:
       msbuildArchitecture: 'x86'
       
   - task: PublishBuildArtifacts@1
+    displayName: Publish win-x86 Artifacts
     inputs:
       PathtoPublish: 'project/vs2017-teximpnet/Release.Win32/'
       ArtifactName: 'win-x86'
